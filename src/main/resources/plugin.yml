@@ -1,0 +1,7 @@
+name: Titles
+main: org.cyberpwn.titles.Titles
+version: ${project.version}
+depend: [Phantom, PlaceholderAPI]
+commands:
+  titles:
+    aliases: [title]
