@@ -86,7 +86,7 @@ public class TitleController extends Controller implements Configurable
 		
 		for(String i : tr.copy())
 		{
-			if(hasTitle(p, i))
+			if(hasTitle(p, i) || isBlackListed(i))
 			{
 				tr.remove(i);
 			}
@@ -115,6 +115,7 @@ public class TitleController extends Controller implements Configurable
 		pdc.get(p).currentTitle = s;
 	}
 	
+	@Override
 	public void onStart()
 	{
 		loadCluster(this);
@@ -143,7 +144,7 @@ public class TitleController extends Controller implements Configurable
 	{
 		return "config";
 	}
-
+	
 	@Override
 	public void onStop()
 	{
