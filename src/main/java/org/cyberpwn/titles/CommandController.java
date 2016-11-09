@@ -52,6 +52,8 @@ public class CommandController extends Controller implements CommandExecutor, Co
 	public CommandController(Controllable parentController)
 	{
 		super(parentController);
+		
+		cc = new DataCluster();
 	}
 	
 	@Override
@@ -432,6 +434,7 @@ public class CommandController extends Controller implements CommandExecutor, Co
 					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), i.split(";;")[1]);
 					s("Dispatched Title > /" + i.split(";;")[1]);
 					queued.remove(i);
+					saveCluster(this);
 				}
 			}
 			
@@ -484,12 +487,12 @@ public class CommandController extends Controller implements CommandExecutor, Co
 	@Override
 	public void onStart()
 	{
-		
+		loadCluster(this);
 	}
 	
 	@Override
 	public void onStop()
 	{
-		
+		saveCluster(this);
 	}
 }
