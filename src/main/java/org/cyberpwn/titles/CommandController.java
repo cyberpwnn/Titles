@@ -1,10 +1,13 @@
 package org.cyberpwn.titles;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.phantomapi.Phantom;
 import org.phantomapi.clust.Configurable;
 import org.phantomapi.clust.DataCluster;
@@ -43,11 +46,15 @@ public class CommandController extends Controller implements CommandExecutor, Co
 	@Keyed("gui.title-icon.meta-has")
 	public int GUI_TITLE_HAS = 3;
 	
+	@Keyed("queue")
+	public GList<String> queued = new GList<String>();
+	
 	public CommandController(Controllable parentController)
 	{
 		super(parentController);
 	}
 	
+	@Override
 	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String name, String[] args)
 	{
@@ -119,6 +126,8 @@ public class CommandController extends Controller implements CommandExecutor, Co
 						else
 						{
 							sender.sendMessage(C.RED + "No Player Found under or close to " + args[1]);
+							sender.sendMessage(C.YELLOW + "Queued for execution when " + args[1] + " becomes online.");
+							queue(cmd, args, args[1]);
 							
 							return true;
 						}
@@ -279,7 +288,6 @@ public class CommandController extends Controller implements CommandExecutor, Co
 						}
 					}
 					
-					// TODO NEW
 					GList<Window> wins = new GList<Window>();
 					Tabulator<String> tabulator = new Tabulator<String>(45);
 					
@@ -402,6 +410,36 @@ public class CommandController extends Controller implements CommandExecutor, Co
 		}
 		
 		return false;
+	}
+	
+	private void queue(Command cmd, String[] args, String name)
+	{
+		String c = cmd.getName() + " " + new GList<String>(args).toString(" ");
+		queued.add(name + ";;" + c);
+	}
+	
+	@EventHandler
+	public void on(PlayerJoinEvent e)
+	{
+		for(String i : queued.copy())
+		{
+			try
+			{
+				String n = i.split(";;")[0];
+				
+				if(n.equals(e.getPlayer().getName()))
+				{
+					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), i.split(";;")[1]);
+					s("Dispatched Title > /" + i.split(";;")[1]);
+					queued.remove(i);
+				}
+			}
+			
+			catch(Exception ex)
+			{
+				
+			}
+		}
 	}
 	
 	public int getColorIndexAfter(int i)
