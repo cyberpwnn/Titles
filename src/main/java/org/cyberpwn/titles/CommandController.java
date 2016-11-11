@@ -93,6 +93,8 @@ public class CommandController extends Controller implements CommandExecutor, Co
 								
 								if(title == null)
 								{
+									p.sendMessage(C.RED + "No Title to unlock. YOU ALREADY CAUGHT EM ALL");
+									sender.sendMessage(C.RED + "No Title given. ALREADY CAUGHT EM ALL");
 									return true;
 								}
 								
