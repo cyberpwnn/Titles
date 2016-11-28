@@ -360,7 +360,7 @@ public class CommandController extends Controller implements CommandExecutor, Co
 							ix++;
 						}
 						
-						Element fx = new PhantomElement(Material.BARRIER, new Slot(0, 6), C.GREEN + "Previous Page")
+						Element fx = new PhantomElement(Material.FLINT_AND_STEEL, new Slot(0, 6), C.GREEN + "Clear Current Title")
 						{
 							@Override
 							public void onClick(Player p, Click c, Window w)
