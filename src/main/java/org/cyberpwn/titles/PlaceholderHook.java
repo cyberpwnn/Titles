@@ -11,12 +11,17 @@ public class PlaceholderHook extends EZPlaceholderHook
 	{
 		super(plugin, placeholderName);
 	}
-
+	
 	@Override
 	public String onPlaceholderRequest(Player p, String h)
 	{
 		if(h.equalsIgnoreCase("title"))
 		{
+			if(Titles.instance().getTitleController().isLocked(p))
+			{
+				return "";
+			}
+			
 			return Titles.instance().getTitleController().getTitle(p).isEmpty() ? "" : C.DARK_GRAY + "[" + C.RESET + Titles.instance().getTitleController().getTitle(p) + C.RESET + C.DARK_GRAY + "]";
 		}
 		

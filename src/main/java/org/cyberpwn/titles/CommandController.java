@@ -64,12 +64,32 @@ public class CommandController extends Controller implements CommandExecutor, Co
 		{
 			TitleController t = (TitleController) getParentController();
 			
+			if(sender instanceof Player)
+			{
+				if(t.isLocked((Player) sender))
+				{
+					sender.sendMessage(C.RED + "Please wait a moment while we load your data (5 seconds)");
+					return true;
+				}
+			}
+			
 			if(sender.hasPermission("titles.god"))
 			{
 				if(args.length > 2)
 				{
 					if(args[0].equalsIgnoreCase("give"))
 					{
+						Player pp = Phantom.instance().findPlayer(args[1]);
+						
+						if(pp != null)
+						{
+							if(t.isLocked(pp))
+							{
+								sender.sendMessage(C.RED + "Please wait a moment while we load the data (5 seconds)");
+								return true;
+							}
+						}
+						
 						if(Phantom.instance().canFindPlayer(args[1]))
 						{
 							Player p = Phantom.instance().findPlayer(args[1]);
@@ -425,26 +445,33 @@ public class CommandController extends Controller implements CommandExecutor, Co
 	@EventHandler
 	public void on(PlayerJoinEvent e)
 	{
-		for(String i : queued.copy())
+		new TaskLater(150)
 		{
-			try
+			@Override
+			public void run()
 			{
-				String n = i.split(";;")[0];
-				
-				if(n.equals(e.getPlayer().getName()))
+				for(String i : queued.copy())
 				{
-					Bukkit.dispatchCommand(Bukkit.getConsoleSender(), i.split(";;")[1]);
-					s("Dispatched Title > /" + i.split(";;")[1]);
-					queued.remove(i);
-					saveCluster(this);
+					try
+					{
+						String n = i.split(";;")[0];
+						
+						if(n.equals(e.getPlayer().getName()))
+						{
+							Bukkit.dispatchCommand(Bukkit.getConsoleSender(), i.split(";;")[1]);
+							s("Dispatched Title > /" + i.split(";;")[1]);
+							queued.remove(i);
+							saveCluster(CommandController.this);
+						}
+					}
+					
+					catch(Exception ex)
+					{
+						
+					}
 				}
 			}
-			
-			catch(Exception ex)
-			{
-				
-			}
-		}
+		};
 	}
 	
 	public int getColorIndexAfter(int i)
