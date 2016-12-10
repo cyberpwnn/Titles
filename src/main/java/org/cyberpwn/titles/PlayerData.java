@@ -22,7 +22,7 @@ public class PlayerData implements Configurable
 	public PlayerData(Player player)
 	{
 		this.player = player;
-		this.cc = new DataCluster();
+		cc = new DataCluster();
 	}
 	
 	@Override

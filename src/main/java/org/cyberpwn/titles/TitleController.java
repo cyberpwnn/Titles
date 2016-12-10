@@ -97,6 +97,7 @@ public class TitleController extends Controller implements Configurable
 		if(!hasTitle(p, s))
 		{
 			pdc.get(p).titles.add(s);
+			pdc.flush(p);
 		}
 	}
 	
@@ -108,6 +109,7 @@ public class TitleController extends Controller implements Configurable
 		}
 		
 		pdc.get(p).titles.remove(s);
+		pdc.flush(p);
 	}
 	
 	public void addRandomTitle(Player p)
@@ -168,6 +170,7 @@ public class TitleController extends Controller implements Configurable
 		}
 		
 		pdc.get(p).currentTitle = s;
+		pdc.flush(p);
 	}
 	
 	@Override

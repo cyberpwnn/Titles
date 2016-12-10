@@ -19,11 +19,13 @@ public class PlayerDataController extends Controller
 		cache = new GMap<Player, PlayerData>();
 	}
 	
+	@Override
 	public void onStart()
 	{
 		
 	}
 	
+	@Override
 	public void onStop()
 	{
 		for(Player i : Phantom.instance().onlinePlayers())
@@ -54,6 +56,14 @@ public class PlayerDataController extends Controller
 			PlayerData pd = new PlayerData(player);
 			loadMysql(pd);
 			cache.put(player, pd);
+		}
+	}
+	
+	public void flush(Player player)
+	{
+		if(contains(player))
+		{
+			saveMysql(cache.get(player));
 		}
 	}
 	
