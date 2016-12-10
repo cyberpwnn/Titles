@@ -8,9 +8,11 @@ import org.phantomapi.clust.DataCluster;
 import org.phantomapi.clust.Keyed;
 import org.phantomapi.construct.Controllable;
 import org.phantomapi.construct.Controller;
+import org.phantomapi.construct.Ticked;
 import org.phantomapi.lang.GList;
 import org.phantomapi.sync.TaskLater;
 
+@Ticked(100)
 public class TitleController extends Controller implements Configurable
 {
 	private DataCluster cc;
@@ -80,6 +82,12 @@ public class TitleController extends Controller implements Configurable
 		}
 		
 		return pdc.get(p).titles.copy();
+	}
+	
+	@Override
+	public void onTick()
+	{
+		pdc.flush();
 	}
 	
 	public boolean isBlackListed(String s)

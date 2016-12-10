@@ -7,15 +7,18 @@ import org.phantomapi.Phantom;
 import org.phantomapi.construct.Controllable;
 import org.phantomapi.construct.Controller;
 import org.phantomapi.lang.GMap;
+import org.phantomapi.lang.GSet;
 
 public class PlayerDataController extends Controller
 {
 	private GMap<Player, PlayerData> cache;
+	private GSet<Player> flush;
 	
 	public PlayerDataController(Controllable parentController)
 	{
 		super(parentController);
 		
+		flush = new GSet<Player>();
 		cache = new GMap<Player, PlayerData>();
 	}
 	
@@ -49,6 +52,16 @@ public class PlayerDataController extends Controller
 		return cache.get(p);
 	}
 	
+	public void flush()
+	{
+		for(Player i : flush)
+		{
+			saveMysql(cache.get(i));
+		}
+		
+		flush.clear();
+	}
+	
 	public void load(Player player)
 	{
 		if(!contains(player))
@@ -63,7 +76,7 @@ public class PlayerDataController extends Controller
 	{
 		if(contains(player))
 		{
-			saveMysql(cache.get(player));
+			flush.add(player);
 		}
 	}
 	
