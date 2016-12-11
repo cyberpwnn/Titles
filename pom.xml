@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.cyberpwn</groupId>
 	<artifactId>titles</artifactId>
-	<version>3.2</version>
+	<version>3.3</version>
 	<name>Titles</name>
 	<description>Basically titles</description>
 	<properties>
@@ -112,7 +112,7 @@
 		<dependency>
 			<groupId>org.cyberpwn</groupId>
 			<artifactId>phantom</artifactId>
-			<version>D</version>
+			<version>D3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.spigotmc</groupId>
