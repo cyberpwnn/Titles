@@ -40,6 +40,16 @@ public class TitleController extends Controller implements Configurable
 	
 	public DataCluster g(Player p)
 	{
+		if(!PD.get(p).getConfiguration().contains("titles.t"))
+		{
+			PD.get(p).getConfiguration().set("titles.t", new GList<String>());
+		}
+		
+		if(!PD.get(p).getConfiguration().contains("titles.c"))
+		{
+			PD.get(p).getConfiguration().set("titles.c", "");
+		}
+		
 		return PD.get(p).getConfiguration();
 	}
 	
